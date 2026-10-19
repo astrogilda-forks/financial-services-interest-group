@@ -1,7 +1,7 @@
 """Check the use-case files in docs/use-cases against the format in its README.
 
-Each case needs a title, a Status line, a Vectors line and five sections in
-order. A vectorised case must list vectors, and every listed id must be a
+Each case needs a title, then a Status line and a Vectors line before its
+first section, then five sections in order. A vectorised case must list vectors, and every listed id must be a
 member of the agent-audit-record corpus in the installed agent-evidence-vectors
 release, which docs/use-cases/requirements.txt pins.
 """
@@ -39,8 +39,10 @@ def check(path: Path, known: set[str]) -> list[str]:
     errors: list[str] = []
     if not lines or not lines[0].startswith("# "):
         errors.append("the first line must be a '# ' title")
-    status = next((ln for ln in lines if ln.startswith("Status:")), None)
-    vectors = next((ln for ln in lines if ln.startswith("Vectors:")), None)
+    first_section = next((n for n, ln in enumerate(lines) if ln.startswith("## ")), len(lines))
+    header = lines[:first_section]
+    status = next((ln for ln in header if ln.startswith("Status:")), None)
+    vectors = next((ln for ln in header if ln.startswith("Vectors:")), None)
     value = status.split(":", 1)[1].strip() if status else ""
     if value not in STATUSES:
         errors.append(f"Status must be one of {sorted(STATUSES)}, found {value!r}")

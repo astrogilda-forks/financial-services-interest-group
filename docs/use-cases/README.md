@@ -7,7 +7,7 @@ One file per finance use case, written in prose so the group can review it befor
 Name the file `docs/use-cases/<short-slug>.md` and copy [TEMPLATE.md](TEMPLATE.md). A case carries:
 
 - a title line (`# ...`);
-- a `Status:` line, one of `draft` (open for comment), `reviewed` (the group has checked the prose) or `vectorised` (it has conformance vectors);
+- before the first section, a `Status:` line, one of `draft` (open for comment), `reviewed` (the group has checked the prose) or `vectorised` (it has conformance vectors);
 - a `Vectors:` line, empty until the case is vectorised, then the member ids of the pinned corpus that test it (for example `A1, A9`);
 - the sections `## Scenario`, `## Parties and authority`, `## What happens`, `## What the record must show` and `## Open questions`, in that order.
 
