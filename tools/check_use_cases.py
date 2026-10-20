@@ -2,8 +2,8 @@
 
 Each case needs a title, then a Status line and a Vectors line before its
 first section, then five sections in order. A vectorised case must list vectors, and every listed id must be a
-member of the agent-audit-record corpus in the installed agent-evidence-vectors
-release, which docs/use-cases/requirements.txt pins.
+member of the agent-audit-record corpus or a case of the occurrence-binding corpus in the installed
+agent-evidence-vectors release, which docs/use-cases/requirements.txt pins.
 """
 
 from __future__ import annotations
@@ -27,10 +27,12 @@ STATUSES = {"draft", "reviewed", "vectorised"}
 
 
 def corpus_ids() -> set[str]:
-    """Return the member ids (draftId) of the installed agent-audit-record corpus."""
-    root = resources.files("agent_evidence_vectors") / "corpora" / "vectors-agent-audit-record"
+    """Return the ids a case may list: audit-record members and occurrence-binding cases."""
+    package = resources.files("agent_evidence_vectors")
+    root = package / "corpora" / "vectors-agent-audit-record"
     manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
-    return {v["draftId"] for v in manifest["vectors"]}
+    cases = json.loads((package / "occurrence_binding" / "corpus" / "cases.json").read_text(encoding="utf-8"))
+    return {v["draftId"] for v in manifest["vectors"]} | {c["id"] for c in cases["cases"]}
 
 
 def check(path: Path, known: set[str]) -> list[str]:
