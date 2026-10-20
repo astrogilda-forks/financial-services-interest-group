@@ -24,3 +24,5 @@ jobs:
         run: python tools/check_use_cases.py
       - name: The pinned corpus replays as its manifest declares
         run: agent-evidence-vectors --corpus vectors-agent-audit-record
+      - name: The lost-call occurrence cases replay as declared
+        run: agent-evidence-vectors-occurrence-binding --output occurrence-binding-result

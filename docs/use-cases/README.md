@@ -23,4 +23,9 @@ Run the checks locally:
 pip install -r docs/use-cases/requirements.txt
 python tools/check_use_cases.py
 agent-evidence-vectors --corpus vectors-agent-audit-record
+agent-evidence-vectors-occurrence-binding --output occurrence-binding-result
 ```
+
+## Lost-call cases
+
+Release 0.24.0 adds the occurrence-binding corpus, which replays one paid call and what happens when the response is lost. A case about a paid or delegated call can point at its cases: `lost_call_settled_not_run` (paid, no reply, and the responder signs that the call did not run), `lost_call_no_statement` (a bare missing reply stays unresolved), `same_content_different_execution` and `payment_moved_to_other_occurrence` (a retry is a second occurrence and is not counted as the first), and `input_other_dataset_version` (a read of a stale dataset is refused). CI replays this corpus beside the audit-record one.
